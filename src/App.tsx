@@ -1,27 +1,28 @@
 import { Button, ButtonGroup } from "@chakra-ui/react";
-import { Grid, GridItem, Show } from "@chakra-ui/react";
+import { Grid, GridItem, Show, Box } from "@chakra-ui/react";
 import GameLibrary from "./components/GameLibrary";
 import NavBar from "./components/NavBar";
 
 function App() {
   return (
     <Grid
+      templateRows={{ base: "auto 1fr", lg: "auto" }}
+      templateColumns={{ base: "1fr", lg: "auto 1fr" }}
       templateAreas={{
-        base: `"nav main"`,
-        lg: `"nav nav" "aside main"`,
+        base: `"header" "main"`,
+        lg: `"header aside" "main aside"`,
       }}
+      minHeight="100vh"
     >
-      <GridItem pl="2" area={"nav"}>
+      <GridItem gridArea="header">
         <NavBar />
       </GridItem>
-      <Show above="lg">
-        <GridItem pl="2" area={"aside"}>
-          Aside
-        </GridItem>
-      </Show>
-      <GridItem pl="2" area={"main"}>
+      <GridItem gridArea="main">
         <GameLibrary />
       </GridItem>
+      <Box display={{ base: "none", lg: "block" }} gridArea="aside">
+        Aside
+      </Box>
     </Grid>
   );
 }
