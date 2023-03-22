@@ -26,7 +26,10 @@ interface FetchGamesResponse {
   results: Game[];
 }
 
-const useGames = (selectedGenre: Genre | null) => {
+const useGames = (
+  selectedGenre: Genre | null,
+  selectedPlatform: Platform | null
+) => {
   const [games, setGames] = useState<Game[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +40,7 @@ const useGames = (selectedGenre: Genre | null) => {
       .get<FetchGamesResponse>("/games", {
         params: {
           genres: selectedGenre?.id,
+          platforms: selectedPlatform?.id,
         },
       })
       .then((res) => {
@@ -47,7 +51,7 @@ const useGames = (selectedGenre: Genre | null) => {
         setError(err.message);
         setIsLoading(false);
       });
-  }, [selectedGenre]);
+  }, [selectedGenre?.id, selectedPlatform?.id]);
 
   return { games, error, isLoading };
 };
