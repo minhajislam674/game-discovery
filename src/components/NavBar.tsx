@@ -6,7 +6,10 @@ const NavBar = () => {
   return (
     <HStack justifyContent="space-between" padding="15px">
       <Image src={logo} boxSize="60px"></Image>
-      <Text> myGames</Text>
+      <Text fontSize="22" fontWeight="bold">
+        {" "}
+        GamesHub
+      </Text>
       <ColorModeSwitch />
     </HStack>
   );
