@@ -6,9 +6,12 @@
 
 // export default getCroppedImageUrl;
 
-const getCroppedImageUrl = (url: string) => {
+const getCroppedImageUrl = (url: string | null) => {
   const regex = /media\//;
   const cropParams = "/crop/600/400/";
+
+  if (!url) return;
+
   return url.replace(regex, `media${cropParams}`);
 };
 

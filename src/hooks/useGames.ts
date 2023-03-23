@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { GameQuery } from "../App";
 import apiClient from "../services/api-client";
 
 export interface Genre {
@@ -26,10 +27,7 @@ interface FetchGamesResponse {
   results: Game[];
 }
 
-const useGames = (
-  selectedGenre: Genre | null,
-  selectedPlatform: Platform | null
-) => {
+const useGames = (gameQuery: GameQuery) => {
   const [games, setGames] = useState<Game[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -39,8 +37,9 @@ const useGames = (
     apiClient
       .get<FetchGamesResponse>("/games", {
         params: {
-          genres: selectedGenre?.id,
-          platforms: selectedPlatform?.id,
+          genres: gameQuery.genre?.id,
+          platforms: gameQuery.platform?.id,
+          ordering: gameQuery.sortOrder,
         },
       })
       .then((res) => {
@@ -51,7 +50,7 @@ const useGames = (
         setError(err.message);
         setIsLoading(false);
       });
-  }, [selectedGenre?.id, selectedPlatform?.id]);
+  }, [gameQuery]);
 
   return { games, error, isLoading };
 };

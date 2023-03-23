@@ -1,4 +1,4 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, HStack } from "@chakra-ui/react";
 import GameLibrary from "./components/GameLibrary";
 import GenreList from "./components/GenreList";
 import NavBar from "./components/NavBar";
@@ -6,12 +6,17 @@ import { useState } from "react";
 import { Genre } from "./hooks/useGenres";
 import PlatformSelection from "./components/PlatformSelection";
 import { Platform } from "./hooks/usePlatforms";
+import SortSelection from "./components/SortSelection";
+
+export interface GameQuery {
+  genre: Genre | null;
+  platform: Platform | null;
+  sortOrder: string;
+}
 
 function App() {
-  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
-  const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(
-    null
-  );
+  const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
+
   return (
     <Grid
       templateAreas={{
@@ -30,19 +35,27 @@ function App() {
       </GridItem>
       <GridItem paddingX="10" area={"nav"}>
         <GenreList
-          selectedGenre={selectedGenre}
-          onSelectGenre={(genre) => setSelectedGenre(genre)}
+          selectedGenre={gameQuery.genre}
+          onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
         />
       </GridItem>
       <GridItem paddingX="10" area={"main"}>
-        <PlatformSelection
-          selectedPlatform={selectedPlatform}
-          onSelectPlatform={(platform) => setSelectedPlatform(platform)}
-        />
-        <GameLibrary
-          selectedPlatform={selectedPlatform}
-          selectedGenre={selectedGenre}
-        />
+        <HStack>
+          <PlatformSelection
+            selectedPlatform={gameQuery.platform}
+            onSelectPlatform={(platform) =>
+              setGameQuery({ ...gameQuery, platform })
+            }
+          />
+          <SortSelection
+            selectedOrder={gameQuery.sortOrder}
+            onSelectSortOrder={(sortOrder) =>
+              setGameQuery({ ...gameQuery, sortOrder })
+            }
+          />
+        </HStack>
+
+        <GameLibrary gameQuery={gameQuery} />
       </GridItem>
       <GridItem area={"footer"}></GridItem>
     </Grid>
