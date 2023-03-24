@@ -1,4 +1,12 @@
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Flex,
+  Icon,
+} from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
 interface Props {
@@ -40,8 +48,11 @@ const SortSelection = ({ onSelectSortOrder, selectedOrder }: Props) => {
 
   return (
     <Menu>
-      <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-        Sort By: {currentSortOrder?.label || "Relevance"}
+      <MenuButton as={Button} max-width="400px">
+        <Flex alignItems="center">
+          Sort By: {currentSortOrder?.label || "Relevance"}
+          <Icon as={ChevronDownIcon} ml={2} />
+        </Flex>
       </MenuButton>
       <MenuList>
         {sortOrders.map((order) => (

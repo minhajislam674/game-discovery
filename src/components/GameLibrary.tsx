@@ -1,11 +1,8 @@
-import { SimpleGrid, Text } from "@chakra-ui/react";
-import { Genre } from "../hooks/useGenres";
+import { SimpleGrid, Text, VStack, Box } from "@chakra-ui/react";
 import useGames from "../hooks/useGames";
 import GameCard from "./GameCard";
 import GameCardSkeleton from "./GameCardSkeleton";
-import { Platform } from "../hooks/useGames";
 import { GameQuery } from "../App";
-
 interface Props {
   gameQuery: GameQuery;
 }
@@ -17,14 +14,24 @@ const GameLibrary = ({ gameQuery }: Props) => {
     <>
       {error && <Text>{error}</Text>}
 
-      <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 5 }} spacing={5}>
-        {isLoading &&
-          skeletons.map((skeleton) => <GameCardSkeleton key={skeleton} />)}
-
-        {games.map((game) => (
-          <GameCard key={game.id} game={game} />
-        ))}
-      </SimpleGrid>
+      <VStack>
+        <SimpleGrid
+          columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
+          padding="10px"
+          spacing={5}
+        >
+          {isLoading &&
+            skeletons.map((skeleton) => <GameCardSkeleton key={skeleton} />)}
+          {games.length === 0 && !isLoading && (
+            <Box textAlign="center" p={4} m={4}>
+              <Text>No games found for your search</Text>
+            </Box>
+          )}
+          {games.map((game) => (
+            <GameCard key={game.id} game={game} />
+          ))}
+        </SimpleGrid>
+      </VStack>
     </>
   );
 };

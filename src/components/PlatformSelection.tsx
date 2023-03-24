@@ -1,4 +1,12 @@
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Flex,
+  Icon,
+} from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Platform } from "../hooks/usePlatforms";
 
@@ -14,8 +22,11 @@ const PlatformSelection = ({ onSelectPlatform, selectedPlatform }: Props) => {
   if (error) return null;
   return (
     <Menu>
-      <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-        {selectedPlatform?.name || "Select Platform"}
+      <MenuButton as={Button} max-width="400px">
+        <Flex alignItems="center">
+          {selectedPlatform?.name || "Select Platform"}
+          <Icon as={ChevronDownIcon} ml={2} />
+        </Flex>
       </MenuButton>
       <MenuList>
         {platforms.map((platform) => (
